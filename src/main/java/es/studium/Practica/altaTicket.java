@@ -1,0 +1,211 @@
+package es.studium.Practica;
+
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+
+public class altaTicket extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField fecha;
+	private JTextField total;
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+	
+	Conexion conexion = new Conexion();
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					altaTicket frame = new altaTicket();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public altaTicket() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("ALTA TICKET");
+		lblNewLabel.setBounds(177, 10, 132, 29);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("FECHA:");
+		lblNewLabel_1.setBounds(106, 70, 86, 27);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("TOTAL:");
+		lblNewLabel_1_1.setBounds(106, 125, 54, 27);
+		contentPane.add(lblNewLabel_1_1);
+		
+		fecha = new JTextField();
+		fecha.setColumns(10);
+		fecha.setBounds(190, 74, 96, 19);
+		contentPane.add(fecha);
+		
+		total = new JTextField();
+		total.setColumns(10);
+		total.setBounds(190, 129, 96, 19);
+		contentPane.add(total);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(82, 197, 85, 21);
+		btnCancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				
+			}
+			
+		});
+
+			
+		contentPane.add(btnCancelar);
+		
+		JButton btnFinalizar = new JButton("Finalizar");
+		btnFinalizar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(btnFinalizar)) {
+				 String totalT = total.getText();  // Reemplaza textFieldTotal con el nombre real de tu campo de total
+				 String fechaT = fecha.getText();
+	                // Validar la fecha
+	                if (isValidFecha(fecha) != null) {
+	                	 
+	                	System.out.println("Fecha correcta");
+	                   
+	                }
+	                else {
+	                	JOptionPane.showMessageDialog(null, "La fecha no es válida");
+	                    return; // Detener la ejecución si la fecha no es válida
+	                }
+
+	                // Validar el total
+	                double total1 ;
+	                try {
+	                     total1 = Double.parseDouble(totalT);
+	                    if (total1 <= 0) {
+	                        JOptionPane.showMessageDialog(null, "El total debe ser mayor que cero");
+	                        return; // Detener la ejecución si el total no es válido
+	                    }
+	                } catch (NumberFormatException ex) {
+	                    JOptionPane.showMessageDialog(null, "Ingrese un valor numérico válido para el total");
+			        	System.out.println("Error 1 :" + ex.getMessage());
+
+	                    return; // Detener la ejecución si no se puede convertir el total a un número
+	                }
+	                
+	              
+						String sentencia = "INSERT INTO tickets VALUES(null,'" + total.getText() +"','"+ fecha.getText()+"');";
+				        conexion.altaT(sentencia);
+				        new altaFactura();
+				
+			}
+			}
+			
+		});
+		btnFinalizar.setBounds(267, 197, 85, 21);
+		contentPane.add(btnFinalizar);
+		setVisible(true);
+		
+		
+	}
+	
+	private String[] isValidFecha(JTextField fecha) {
+		// TODO Auto-generated method stub
+		String fechaTexto = fecha.getText();
+		  String[] partesFecha = fechaTexto.split("/");
+		  String ano = partesFecha[0];
+		  String mes = partesFecha[1];
+		  String dia = partesFecha[2];
+
+		  
+		  if(fechaTexto.length()!=10) {
+			  JOptionPane.showMessageDialog(null, "Formato de fecha no válido. Utilice yyyy/MM/dd");
+		  }
+		  // Verificar el formato de la fecha
+		    if (!fechaTexto.matches("\\d{4}/\\d{2}/\\d{2}")) {
+		        JOptionPane.showMessageDialog(null, "Formato de fecha no válido. Utilice yyyy/MM/dd");
+		        return null;
+		    }
+
+
+	        // Si no hay tres partes, la fecha no tiene el formato esperado
+	        if (partesFecha.length != 3) {
+	        	JOptionPane.showMessageDialog(null, "Formato de fecha no válido. Utilice yyyy/MM/dd");
+	            return null;
+	        }
+	        int diaInt;
+	        try {
+	            diaInt = Integer.parseInt(dia);
+	            if (diaInt < 1 || diaInt > 31) {
+	            	JOptionPane.showMessageDialog(null, "Dias fuera del rango");
+	            	
+	                return null; // Día fuera de rango
+	            }
+	        } catch (NumberFormatException e) {
+	        	System.out.println("Error 2 :" + e.getMessage());
+
+	            return null; // No se pudo convertir a entero
+	        }
+	        int mesInt;
+	        try {
+	            mesInt = Integer.parseInt(mes);
+	            if (mesInt < 1 || mesInt > 12) {
+	            	JOptionPane.showMessageDialog(null, "Mes fuera del rango");
+	                return null; // Mes fuera de rango
+	            }
+	        } catch (NumberFormatException e) {
+	        	System.out.println("Error 3 :" + e.getMessage());
+	            return null; // No se pudo convertir a entero
+	        }
+	        int anoInt;
+	        try {
+	            anoInt = Integer.parseInt(ano);
+	            if (anoInt < 1900 || anoInt > 2025) {
+	            	JOptionPane.showMessageDialog(null, "Año fuera del rango");
+	                return null; // Mes fuera de rango
+	            }
+	        } catch (NumberFormatException e) {
+	        	System.out.println("Error 4 :" + e.getMessage());
+	            return null; // No se pudo convertir a entero
+	        }
+	        // Devolver el arreglo con día, mes y año
+	        return partesFecha;
+			 
+	}
+	
+	
+	
+}
