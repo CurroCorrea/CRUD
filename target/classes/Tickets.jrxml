@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ejemplo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ea97318-a7aa-4128-8a26-e3eb20542188">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="tiendecitaccs"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="FECHAENTRADA" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="FECHASALIDA" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[Select * from tickets 	WHERE fechaT BETWEEN $P{FECHAENTRADA} AND $P{FECHASALIDA}]]>
+	</queryString>
+	<field name="idTicket" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idTicket"/>
+		<property name="com.jaspersoft.studio.field.label" value="idTicket"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tickets"/>
+	</field>
+	<field name="totalT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="totalT"/>
+		<property name="com.jaspersoft.studio.field.label" value="totalT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tickets"/>
+	</field>
+	<field name="fechaT" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fechaT"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechaT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tickets"/>
+	</field>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="10" width="540" height="60" backcolor="#ABA4A4" uuid="e2ad6846-92a0-4931-8708-848f8aa3a661"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ejemplo JasperStudio]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="47" splitType="Stretch">
+			<staticText>
+				<reportElement x="370" y="10" width="150" height="30" uuid="35a75354-8e91-4c17-9357-62c33d41c814"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autor:Curro]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="185" height="30" uuid="fbf4f35e-3ccd-4d27-b197-d85cffa9585e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a912c604-102a-4523-873f-41fd04d53ffa"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="0" width="185" height="30" uuid="9c9d8f2c-e5d3-442f-8579-b908125213de">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="81a002e7-e3f4-4129-8f2b-e81e41bdb8f3"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="185" height="30" uuid="697d62f8-3354-4d0c-b0d3-7870af1adb30">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0590a3f7-42fa-42ab-ae2c-939c5d5611ae"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="185" height="30" uuid="9aa60df5-89c5-464c-a424-3c25c45a504b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a912c604-102a-4523-873f-41fd04d53ffa"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{idTicket}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="0" width="185" height="30" uuid="9862824c-f988-4094-83e8-931ea9b2d143">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="81a002e7-e3f4-4129-8f2b-e81e41bdb8f3"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{totalT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="185" height="30" uuid="b842f41c-8aac-4e85-bc22-8da1dc5ff584">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0590a3f7-42fa-42ab-ae2c-939c5d5611ae"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fechaT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="350" y="10" width="100" height="30" uuid="75243dec-08d5-43b2-a801-ec3e4bc4dfd9"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="450" y="10" width="100" height="30" uuid="7a3c7a73-26c3-4018-8cc2-133169e101d3"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
