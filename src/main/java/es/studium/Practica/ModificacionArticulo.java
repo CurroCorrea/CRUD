@@ -12,16 +12,23 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+
+/**
+ * @author curro
+* @version 4.29.0
+* @since 07/02/2024
+* @param Se serializa la clase
+* @param el valor est·tico idArtÌculo es para la consulta
+*/
+
 public class ModificacionArticulo extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	Conexion conexion = new Conexion();
 	static int idArticulo = 0;
-
-	/**
-	 * Launch the application.
-	 */
+	 
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -36,7 +43,7 @@ public class ModificacionArticulo extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * En el constructor se le da forma y estructura al frame
 	 */
 	public ModificacionArticulo() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,7 +54,7 @@ public class ModificacionArticulo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("MODIFICACI√ìN DE ART√çCULOS");
+		JLabel lblNewLabel = new JLabel("MODIFICACI”ìN DE ARTÕCULOS");
 		lblNewLabel.setBounds(129, 10, 188, 81);
 		contentPane.add(lblNewLabel);
 		
@@ -56,7 +63,7 @@ public class ModificacionArticulo extends JFrame {
 		conexion.rellenarListArticulos(comboBox);
 		contentPane.add(comboBox);
 		
-		JLabel lblNewLabel_1 = new JLabel("Elija Art√≠culo:");
+		JLabel lblNewLabel_1 = new JLabel("Elija ArtÕculo:");
 		lblNewLabel_1.setBounds(92, 111, 124, 34);
 		contentPane.add(lblNewLabel_1);
 		
@@ -81,14 +88,14 @@ public class ModificacionArticulo extends JFrame {
 				                 System.out.println(idArticulo);
 				         
 				            } catch (NumberFormatException ex) {
-				                JOptionPane.showMessageDialog(null, "Error: Formato de idArticulo no v√°lido");
+				                JOptionPane.showMessageDialog(null, "Error: Formato de idArticulo no v·lido");
 				            }
 				        } else {
-				            JOptionPane.showMessageDialog(null, "Error: Formato de datos no v√°lido");
+				            JOptionPane.showMessageDialog(null, "Error: Formato de datos no v·lido");
 				        }
 				        if(comboBox.getSelectedItem()!=null) {
     	
-				        	new modificarAr();
+				        	new ModificarAr();
 				        	
 				        }
 					

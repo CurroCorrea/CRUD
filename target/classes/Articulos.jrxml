@@ -35,7 +35,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Ejemplo JasperStudio]]></text>
+				<text><![CDATA[CONSULTA ARTÍCULOS]]></text>
 			</staticText>
 		</band>
 	</title>

@@ -15,7 +15,18 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class consultaTicket extends JFrame implements ActionListener {
+
+/**
+ * @author curro
+* @version 4.29.0
+* @since 07/02/2024
+* @param Txt1 para la fecha de entrada
+* @param txt2 para la fecha de salida
+* @param el obj conexion para llamar a los métodos
+*/
+
+
+public class ConsultaTicket extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -23,14 +34,11 @@ public class consultaTicket extends JFrame implements ActionListener {
 	private JTextField fechaentrada;
 	private JTextField fechasalida;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					consultaTicket frame = new consultaTicket();
+					ConsultaTicket frame = new ConsultaTicket();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,9 +48,9 @@ public class consultaTicket extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Create the frame.
+	 * En el constructor se le da forma y estructura al frame
 	 */
-	public consultaTicket() {
+	public ConsultaTicket() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

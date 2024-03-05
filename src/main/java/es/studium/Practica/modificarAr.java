@@ -12,7 +12,18 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class modificarAr extends JFrame {
+
+/**
+ * @author curro
+ * @version 4.29.0
+ * @since 07/02/2024
+ * @param txtDescripcion es el label de descripciÛn
+ * @param txtPrecio para la fecha de salida
+ * @param txtCantidad para la cantidad de artÌculos
+ * @param conexion el obj conexion para llamar a los mÈtodos
+ */
+
+public class ModificarAr extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -23,14 +34,11 @@ public class modificarAr extends JFrame {
 	ModificacionArticulo modificacionArticulo = new ModificacionArticulo();
 	Conexion conexion = new Conexion();
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					modificarAr frame = new modificarAr();
+					ModificarAr frame = new ModificarAr();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,9 +48,9 @@ public class modificarAr extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * El constructor,dÛnde se diseÒa y organiza el Jframe
 	 */
-	public modificarAr() {
+	public ModificarAr() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -71,7 +79,7 @@ public class modificarAr extends JFrame {
 		});
 		contentPane.add(btnNewButton);
 		
-		JLabel lblNewLabel_1 = new JLabel("Descripci√≥n:");
+		JLabel lblNewLabel_1 = new JLabel("DescripciÛn:");
 		lblNewLabel_1.setBounds(127, 59, 86, 27);
 		contentPane.add(lblNewLabel_1);
 		
@@ -104,7 +112,7 @@ public class modificarAr extends JFrame {
 		contentPane.add(txtCantidad);
 		
 		
-		JLabel lblModificacionDeArtculo = new JLabel("MODIFICACION DE ART√çCULO");
+		JLabel lblModificacionDeArtculo = new JLabel("MODIFICACION DE ARTÕCULO");
 		lblModificacionDeArtculo.setBounds(142, 14, 200, 35);
 		contentPane.add(lblModificacionDeArtculo);
 		

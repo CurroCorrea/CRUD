@@ -14,25 +14,34 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class altaArticulo extends JFrame {
+
+
+/**
+ * @author curro
+ * @version 4.29.0
+ * @since 07/02/2024
+ * @param jtxt1 para el tÌtulo
+ * @param jtxt2 para los campos de artÌculo
+ * @param jtxt3 para los campos de artÌculo
+ * @param conexion el objeto conexion para los mÈtodos
+ * @param dlgmensaje mensaje para la respuesta del alta
+ */
+
+public class AltaArticulo extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField2;
-	private JTextField textField3;
+	private JTextField jtxt1;
+	private JTextField jtxt2;
+	private JTextField jtxt3;
 	Conexion conexion = new Conexion();
 	 JDialog dlgMensaje = new JDialog(this,"Mensaje", true);
-	 
-
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					altaArticulo frame = new altaArticulo();
+					AltaArticulo frame = new AltaArticulo();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,9 +51,9 @@ public class altaArticulo extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Este es el constructor, dÛnde se estructura y diseÒa el frame
 	 */
-	public altaArticulo() {
+	public AltaArticulo() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -53,11 +62,11 @@ public class altaArticulo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("ALTA DE ART√çCULO");
+		JLabel lblNewLabel = new JLabel("ALTA DE ARTÕCULO");
 		lblNewLabel.setBounds(163, 22, 129, 35);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Descripci√≥n:");
+		JLabel lblNewLabel_1 = new JLabel("DescripciÛn:");
 		lblNewLabel_1.setBounds(92, 74, 86, 27);
 		contentPane.add(lblNewLabel_1);
 		
@@ -69,32 +78,38 @@ public class altaArticulo extends JFrame {
 		lblNewLabel_3.setBounds(109, 154, 69, 29);
 		contentPane.add(lblNewLabel_3);
 		
-		textField = new JTextField();
-		textField.setBounds(196, 78, 96, 19);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		jtxt1 = new JTextField();
+		jtxt1.setBounds(196, 78, 96, 19);
+		contentPane.add(jtxt1);
+		jtxt1.setColumns(10);
 		
-		textField2 = new JTextField();
-		textField2.setBounds(196, 116, 96, 19);
-		contentPane.add(textField2);
-		textField2.setColumns(10);
+		jtxt2 = new JTextField();
+		jtxt2.setBounds(196, 116, 96, 19);
+		contentPane.add(jtxt2);
+		jtxt2.setColumns(10);
 		
-		textField3 = new JTextField();
-		textField3.setBounds(196, 159, 96, 19);
-		contentPane.add(textField3);
-		textField3.setColumns(10);
+		jtxt3 = new JTextField();
+		jtxt3.setBounds(196, 159, 96, 19);
+		contentPane.add(jtxt3);
+		jtxt3.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Finalizar");
 		btnNewButton.setBounds(250, 219, 85, 21);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(textField.getText() != null && verificarNumero()== true && textField3.getText()!=null) {
+				if(jtxt1.getText() != null && verificarNumero()== true && jtxt3.getText()!=null) {
 					
-					String descripcionAr = textField.getText();
-					String precioAr = textField2.getText();
-					String cantidadAr = textField3.getText();
-					conexion.altaAr(descripcionAr, precioAr, cantidadAr);
+					String descripcionAr = jtxt1.getText();
+					String precioAr = jtxt2.getText();
+					String cantidadAr = jtxt3.getText();
+					if(descripcionAr.matches(".*\\d.*")) {//Para comprobar q no utiliza un numero como descripcion
+						JOptionPane.showMessageDialog(null, "Compruebe la descripciÛn");
+					}
+					else {
+						conexion.altaAr(descripcionAr, precioAr, cantidadAr);
+					}
+					
 					
 				}
 				else {
@@ -119,18 +134,29 @@ public class altaArticulo extends JFrame {
 		setVisible(true);
 	}
 	 private boolean verificarNumero() {
-	        String input = textField2.getText();
-	        String cantidad = textField3.getText();
+	        String input = jtxt2.getText();
+	        String cantidad = jtxt3.getText();
 
 	        try {
 	            // Intentar convertir la entrada a un n√∫mero
 	            double numero = Double.parseDouble(input);
 	            int c = Integer.parseInt(cantidad);
 
+	            if (numero < 0) {
+	                // Mostrar un mensaje de error si el n˙mero es negativo
+	                JOptionPane.showMessageDialog(this, "Error: Introduce un precio no negativo", "Error", JOptionPane.ERROR_MESSAGE);
+	                return false;
+	            }
+	            if (c < 0) {
+	                // Mostrar un mensaje de error si el n˙mero es negativo
+	                JOptionPane.showMessageDialog(this, "Error: Introduce una cantidad que no sea negativa", "Error", JOptionPane.ERROR_MESSAGE);
+	                return false;
+	            }
+
 	          return true;
 	        } catch (NumberFormatException e) {
-	            // La conversi√≥n fall√≥, no es un n√∫mero v√°lido
-	            JOptionPane.showMessageDialog(this, "Error: Introduce un n√∫mero v√°lido", "Error", JOptionPane.ERROR_MESSAGE);
+	            // La conversiÛn falla, no es un n√∫mero v√°lido
+	            JOptionPane.showMessageDialog(this, "Error: Introduce un n˙mero v·lido", "Error", JOptionPane.ERROR_MESSAGE);
 	        }
 			return false;
 	    }

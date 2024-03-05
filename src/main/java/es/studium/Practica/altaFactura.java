@@ -14,22 +14,30 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-public class altaFactura extends JFrame {
+
+/**
+ * @author curro
+ * @version 4.29.0
+ * @since 07/02/2024
+ * @param Txt1 para la fecha
+ * @param txt2 para el total
+ * @param simpledformat para el manejo de fechas
+ *  @param en el constructor se le da forma al frame
+ */
+
+public class AltaFactura extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	Conexion conexion = new Conexion();
 	static int idTicket;
 	private JTextField textField;
-
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					altaFactura frame = new altaFactura();
+					AltaFactura frame = new AltaFactura();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,9 +47,9 @@ public class altaFactura extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Este es el constructor, dónde se estructura y diseña el frame
 	 */
-	public altaFactura() {
+	public AltaFactura() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -50,11 +58,11 @@ public class altaFactura extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		idTicket = conexion.sacarIdTicket();
-		JLabel lblNewLabel = new JLabel("Alta de Factura:Ticket nÂº"+ idTicket );
+		JLabel lblNewLabel = new JLabel("Alta de Factura:Ticket nº"+ idTicket );
 		lblNewLabel.setBounds(143, 10, 172, 32);
 		contentPane.add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("ArtÃ­culo:");
+		JLabel lblNewLabel_1 = new JLabel("Artículo:");
 		lblNewLabel_1.setBounds(129, 41, 68, 39);
 		contentPane.add(lblNewLabel_1);
 
@@ -93,7 +101,7 @@ public class altaFactura extends JFrame {
 		textField.setColumns(10);
 		
 
-		JButton anadir = new JButton("AÃ±adir");
+		JButton anadir = new JButton("Añadir");
 		anadir.setBounds(248, 86, 85, 21);
 		anadir.addActionListener(new ActionListener() {
 

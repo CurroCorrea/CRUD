@@ -12,20 +12,28 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 
-public class bajaArticulo extends JFrame {
+
+/**
+ * @author curro
+ * @version 4.29.0
+ * @since 07/02/2024
+ * @param Txt1 para el tÌtulo
+ * @param checkbox para mostrar los artÌculos
+ * @param btn para realizar la baja
+ *  @param en el constructor se le da forma al frame
+ */
+
+public class BajaArticulo extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	Conexion conexion = new Conexion();
-
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					bajaArticulo frame = new bajaArticulo();
+					BajaArticulo frame = new BajaArticulo();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,9 +43,9 @@ public class bajaArticulo extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Este es el constructor, dÛnde se estructura y diseÒa el frame
 	 */
-	public bajaArticulo() {
+	public BajaArticulo() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -51,11 +59,11 @@ public class bajaArticulo extends JFrame {
 		conexion.rellenarListArticulos(articulos);
 		contentPane.add(articulos);
 
-		JLabel lblNewLabel = new JLabel("BAJA DE ART√çCULOS");
+		JLabel lblNewLabel = new JLabel("BAJA DE ARTÕCULOS");
 		lblNewLabel.setBounds(155, 22, 129, 34);
 		contentPane.add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("Elija Art√≠culo:");
+		JLabel lblNewLabel_1 = new JLabel("Elija ArtÌculo:");
 		lblNewLabel_1.setBounds(92, 83, 78, 34);
 		contentPane.add(lblNewLabel_1);
 
@@ -82,10 +90,10 @@ public class bajaArticulo extends JFrame {
 
 								JOptionPane.showMessageDialog(null, "Articulo eliminado");
 							} catch (NumberFormatException ex) {
-								JOptionPane.showMessageDialog(null, "Error: Formato de idArticulo no v√°lido");
+								JOptionPane.showMessageDialog(null, "Error: Formato de idArticulo no v·lido");
 							}
 						} else {
-							JOptionPane.showMessageDialog(null, "Error: Formato de datos no v√°lido");
+							JOptionPane.showMessageDialog(null, "Error: Formato de datos no v·lido");
 						}
 					}
 					else {

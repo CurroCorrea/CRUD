@@ -24,7 +24,14 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
-
+/**
+ * @author curro
+ * @version 4.29.0
+ * @since 07/02/2024
+ * @param los obj static son para la conexiÛn de la base de datos
+ * @param la sentencia es el mensaje que se le pasa a la abse de datos
+ * @return AquÌ estarÌan todos los mÈtodos registrados 
+ */
 
 public class Conexion {
 
@@ -36,13 +43,17 @@ public class Conexion {
 	static Connection conexion = null;
 	String sentencia = "";
 
-
+	/**
+	 * @return El constructor est· para que nos devuelva la conexion realizada en la base de datos
+	 */
 	public  Conexion() {
 
-		conexion = conectar(); // La igualo al m√©todo de conectar para puentear
+		conexion = conectar(); // La igualo al mÈtodo de conectar para puentear
 	}
 
-
+	/**
+	 * @param Este mÈtodo Conecction conecta con la base de datos
+	 */
 
 	private Connection conectar() {
 		try {
@@ -62,9 +73,12 @@ public class Conexion {
 
 	}
 
+	/**
+	 * @param Rellena el combo box de artÌculos haciendo una consulta
+	 * @return 
+	 */
 
-
-	public void rellenarListArticulos(JComboBox articulos) {
+	public int rellenarListArticulos(JComboBox articulos) {
 
 		sentencia = "SELECT idArticulos, descripcionAr FROM articulos;";	
 		try {     
@@ -84,94 +98,110 @@ public class Conexion {
 
 					// Agregar el texto al modelo de la lista
 					modeloCombo.addElement(textoCombo);
+					
 				}
 
 				// Asignar el modelo de lista al JComboBox
 				articulos.setModel(modeloCombo);
+				return 0;
 			}
 
 			res.close();
 			st.close();
-
+			return 0;
 
 		} catch (SQLException e) {
 			System.out.println("Error 2-" + e.getMessage());
-
+			return 1;
 		}
-
-
-
-
+	
+		
 	}
 
+	/**
+	 * Este metodo manda una sentencia a la Base de Datos para crear un ArtÌculo con sus atributos correspondientes
+	 * @param DescripciÛn, precio y cantidad.
+	 * @return 
+	 */
 
-
-	public void altaAr(String descripcionAr, String precioAr, String cantidadAr) {
+	public int altaAr(String descripcionAr, String precioAr, String cantidadAr) {
 		// TODO Auto-generated method stub
-		sentencia = "INSERT INTO articulos VALUES(null, '"+ descripcionAr+"','"+precioAr+"','"+cantidadAr+"');";
-
 		try {
-			Statement st = conexion.createStatement();
-			st.executeUpdate(sentencia);
-			JOptionPane.showMessageDialog(null, "Alta de art√≠culo realizada");
+	        // Intenta convertir los valores a tipos numÈricos
+	        double precio = Double.parseDouble(precioAr);
+	        int cantidad = Integer.parseInt(cantidadAr);
 
-		} catch (SQLException sqle) {
-			System.out.println("Error 3-" + sqle.getMessage());
-		}
-
-
-
+	        sentencia = "INSERT INTO articulos VALUES(null, '"+ descripcionAr+"','"+cantidad+"','"+precio+"');";
+	        Statement st = conexion.createStatement();
+	        int exito = st.executeUpdate(sentencia);
+	        if (exito > 0) {
+	            // ALTA exitosa
+	            JOptionPane.showMessageDialog(null, "Alta de artÌculo realizada");
+	            return 0;
+	        } else {
+	            // No se actualizÛ ninguna fila (ID no encontrado)
+	            return 1;
+	        }
+	    } catch (NumberFormatException | SQLException e) {
+	        // Si ocurre un error al convertir a n˙meros o un error de SQL
+	        System.out.println("Error 3- " + e.getMessage());
+	        return 1;
+	    }
 	}
 
+	/**
+	 * Este metodo rellena un textarea con una consulta de ArtÌculos
+	 * @param TextArea
+	 * @return 
+	 */
 
-
-	public void rellenarTextAAr(JTextArea txtA) {
+	public int rellenarTextAAr(JTextArea txtA) {
 
 		sentencia = "SELECT idArticulos, descripcionAr, cantidadAr, precioAr FROM articulos;";
-
-
 		try {
-
 			Statement st = conexion.createStatement();
 			ResultSet res = st.executeQuery(sentencia);
 			pdf();
-
 			if (res.next())
 			{
-				txtA.setText(res.getInt("idArticulos")+ " - " + res.getString("descripcionAr")+" - "+res.getInt("cantidadAr")+" - "+ res.getDouble("precioAr"));
-
-			}
-
+				txtA.setText(res.getInt("idArticulos")+ " - " + res.getString("descripcionAr")+" - "+res.getInt("cantidadAr")+" - "+ res.getDouble("precioAr"));	
+			}	
 			res.close();
 			st.close();
-
-
-		} catch (SQLException e) {
+			return 0;
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error 4-" + e.getMessage());
-
+			return 1;
 		}
-
-
 	}
+	/**
+	 * Este metodo manda una sentencia a la Base de Datos para borrar ArtÌculos.
+	 * @param TextArea
+	 * @return 
+	 */
 
 
-
-	public void bajaAr(int i) {
+	public int bajaAr(int i) {
 		// TODO Auto-generated method stub
 		sentencia = "DELETE FROM articulos WHERE idArticulos = "+ i +";";
-
 		try {
 			Statement st = conexion.createStatement();
-			st.executeUpdate(sentencia, Statement.RETURN_GENERATED_KEYS);
-
-
+			int exito = st.executeUpdate(sentencia, Statement.RETURN_GENERATED_KEYS);
+			if(exito>0) {
+				return 0;
+			}else {
+			return 1;
+			}
 		} catch (SQLException sqle) {
 			System.out.println("Error 5-" + sqle.getMessage());
+			return -1;
 		}
-
-
 	}
+	/**
+	 * Este metodo saca el ID del Ticket que se est· creando.
+	 * @param Tickets
+	 */
 	public int sacarIdTicket()
 	{
 		sentencia = "Select idTicket FROM tickets WHERE idTicket = (Select MAX(idTicket) from tickets);";
@@ -203,6 +233,10 @@ public class Conexion {
 
 
 	}
+	/**
+	 * Este metodo rellena un textarea con la cantidad de artÌculos que se han comprado
+	 * @param TextArea
+	 */
 	public int rellenarCantidadProducto(int cantidad, int idAr, int idT)
 	{
 		sentencia = "INSERT INTO factura VALUES (null, "+ idAr +", "+ idT +", "+ cantidad +" );" ;
@@ -220,10 +254,13 @@ public class Conexion {
 		return idT;
 
 	}
-
+	/**
+	 * Este metodo rellena otro textarea con la cantidad de artÌculos que se han comprado y con su subtotal
+	 * @param TextArea, cantidad, idArtÌculo
+	 */
 	public void rellenarTxtLineaDeFactura(JTextArea txtArea, int cantidad, int idAr)
 	{
-		sentencia = "SELECT descripcionAr AS 'Descripci√≥n', "
+		sentencia = "SELECT descripcionAr AS 'Descripcion', "
 				+ "    precioAr AS 'Precio',"
 				+ "    (precioAr * "+ cantidad +") AS 'Subtotal'FROM "
 				+ "	articulos "
@@ -253,7 +290,10 @@ public class Conexion {
 	}
 
 
-
+	/**
+	 * Este metodo manda una sentencia a la base de datos para crear un ArtÌculo
+	 * @param TextArea
+	 */
 	public void altaT(String sentencia2) {
 		// TODO Auto-generated method stub
 		try {
@@ -294,7 +334,10 @@ public class Conexion {
 
 	}
 
-
+	/**
+	 * 
+	 * @param TextArea
+	 */
 
 	public void rellenarModifAr(int idArticulo, JTextField txtDescripcion, JTextField txtPrecio, JTextField txtCantidad) {
 		// TODO Auto-generated method stub
@@ -327,7 +370,10 @@ public class Conexion {
 
 	}
 
-
+	/**
+	 * Este metodo saca el total del Ticket que se est· creando
+	 * @param TextArea
+	 */
 
 	public void sacarTotal(int idArticulo, int cantidad, JTextArea textAreaT,double c) {
 		// TODO Auto-generated method stub
@@ -358,41 +404,54 @@ public class Conexion {
 
 	}
 
+	/**
+	 * Este metodo actualiza valores de la Base de Datos.MÈtodo Modificar
+	 * @param TextArea
+	 * @return 
+	 */
 
-
-	public void actualizarAr(int i, String text, double p, int c) {
+	public int actualizarAr(int i, String text, double p, int c) {
 		// TODO Auto-generated method stub
-		sentencia = "UPDATE FROM articulos VALUES(null, '"+ text +"', '"+ p +"', '"+ c +"') WHERE idArticulos = "+ i +";";
-
+		sentencia = "UPDATE articulos SET descripcionAr = '"+ text +"',cantidadAr = '"+ c +"', precioAr = '"+ p +"' WHERE idArticulos = "+ i +";";
 		try {
 			Statement st = conexion.createStatement();
-			st.executeUpdate(sentencia);
-
-
-		} catch (SQLException sqle) {
-			System.out.println("Error 12-" + sqle.getMessage());
-		}
-
+			int exito = st.executeUpdate(sentencia);
+			if (exito > 0) {
+	            // ActualizaciÛn exitosa
+	            return 0;
+	        } else {
+	            // No se actualizÛ ninguna fila (ID no encontrado)
+	            return 1;
+	        }
+	    } catch (SQLException sqle) {
+	        System.out.println("Error 12-" + sqle.getMessage());
+	        return -1; // Devuelve 1 en caso de error
+	    }
 	}
 
+	/**
+	 * Este mÈtodo devuelve un PDF con el archivo Jasper que hemos usado para mostrar la informaciÛn de la consulta.
+	 * 
+	 */
+	
 	public static void pdf() {
 		try  
 		{ 
 			// Compilar el informe generando fichero jasper 
 
-			JasperCompileManager.compileReportToFile("./src/main/resources/Articulos.jrxml"); 
+			JasperCompileManager.compileReportToFile("C:/Programa_Tiendecita/Articulos.jrxml"); 
 			System.out.println("Fichero Ejemplo.jasper generado CORRECTAMENTE!"); 
 			// Objeto para guardar par√°metros necesarios para el informe. 
 			   //Como ejemplo usamos dos par√°metros autor ytitulo 
 			   //D√°ndole valores fijos a los par√°metros del informe. 
 			   HashMap<String, Object> parametros = new 
 			HashMap<String, Object>(); 
-			   parametros.put("titulo", "Consulta Art√≠culos "); 
+			   parametros.put("titulo", "Consulta ArtÌculos "); 
 			   parametros.put("autor", "Curro Correa"); 
 			 
 			   // Cargar el informe compilado 
 			   JasperReport report = (JasperReport) 
-			JRLoader.loadObjectFromFile("./src/main/resources/Ejemplo.jasper"); 
+			   JRLoader.loadObjectFromFile("C:/Programa_Tiendecita/Ejemplo.jasper"); 
 			 
 			   // Conectar a la base de datos para sacar la informaci√≥n 
 			   Class.forName("com.mysql.cj.jdbc.Driver"); 
@@ -410,9 +469,9 @@ public class Conexion {
 			    
 			   // Para exportarlo a pdf 
 			  
-			 JasperExportManager.exportReportToPdfFile(print,"./src/main/resources/Articulos.pdf"); 
+			 JasperExportManager.exportReportToPdfFile(print,"C:/Programa_Tiendecita/Articulos.pdf"); 
 			// Abrir el fichero PDF generado 
-			   File path = new File("./src/main/resources/Articulos.pdf"); 
+			   File path = new File("C:/Programa_Tiendecita/Articulos.pdf"); 
 			    
 			   Desktop.getDesktop().open(path); 
 			   System.out.println("Fichero Ejemplo.pdf generado CORRECTAMENTE!"); 
@@ -424,12 +483,17 @@ public class Conexion {
 			  }	
 		}
 		
+	/**
+	 * Este otro, devuelve otro PDF con la consulta para Tickets, con los par·metros necesarios.
+	 * @param  FechaEntrada, FechaSalida
+	 */
+	
 		public static void pdfTickets(java.util.Date fechaEntrada, java.util.Date fechaSalida) {
 			try  
 			{ 
 				// Compilar el informe generando fichero jasper 
 
-				JasperCompileManager.compileReportToFile("./src/main/resources/Tickets.jrxml"); 
+				JasperCompileManager.compileReportToFile("C:/Programa_Tiendecita/Tickets.jrxml"); 
 				System.out.println("Fichero Ejemplo.jasper generado CORRECTAMENTE!"); 
 				// Objeto para guardar par√°metros necesarios para el informe. 
 				   //Como ejemplo usamos dos par√°metros autor ytitulo 
@@ -441,7 +505,7 @@ public class Conexion {
 				 
 				   // Cargar el informe compilado 
 				   JasperReport report = (JasperReport) 
-				JRLoader.loadObjectFromFile("./src/main/resources/Ejemplo.jasper"); 
+				JRLoader.loadObjectFromFile("C:/Programa_Tiendecita/Ejemplo.jasper"); 
 				 
 				   // Conectar a la base de datos para sacar la informaci√≥n 
 				   Class.forName("com.mysql.cj.jdbc.Driver"); 
@@ -459,9 +523,9 @@ public class Conexion {
 				    
 				   // Para exportarlo a pdf 
 				  
-				 JasperExportManager.exportReportToPdfFile(print,"./src/main/resources/Tickets.pdf"); 
+				 JasperExportManager.exportReportToPdfFile(print,"C:/Programa_Tiendecita/Tickets.pdf"); 
 				// Abrir el fichero PDF generado 
-				   File path = new File("./src/main/resources/Tickets.pdf"); 
+				   File path = new File("C:/Programa_Tiendecita/Tickets.pdf"); 
 				    
 				   Desktop.getDesktop().open(path); 
 				   System.out.println("Fichero Ejemplo.pdf generado CORRECTAMENTE!"); 

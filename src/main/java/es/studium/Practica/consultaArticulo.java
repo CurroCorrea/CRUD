@@ -11,20 +11,28 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
-public class consultaArticulo extends JFrame {
+
+/**
+ * @author curro
+ * @version 4.29.0
+ * @since 07/02/2024
+ * @param Se seriabiliza
+ * @param el obj conexion para llamar a los mÈtodos
+ * @param en el constructor se le da forma al frame
+ */
+
+public class ConsultaArticulo extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	Conexion conexion = new Conexion();
 
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					consultaArticulo frame = new consultaArticulo();
+					ConsultaArticulo frame = new ConsultaArticulo();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,9 +42,9 @@ public class consultaArticulo extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Este es el constructor, dÛnde se estructura y diseÒa el frame
 	 */
-	public consultaArticulo() {
+	public ConsultaArticulo() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -45,7 +53,7 @@ public class consultaArticulo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("CONSULTA DE ART√çCULOS:");
+		JLabel lblNewLabel = new JLabel("CONSULTA DE ARTÕCULOS:");
 		lblNewLabel.setBounds(134, 20, 193, 32);
 		contentPane.add(lblNewLabel);
 		
